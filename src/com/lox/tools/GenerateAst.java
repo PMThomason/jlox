@@ -61,13 +61,25 @@ public class GenerateAst {
             String baseName,
             String className,
             String fieldList) {
-        writer.println("\n" + indents(1) + "static class " + className + " extends " + baseName + " { ");
+
+        writer.println("\n" + indents(1) + "// " + className + " Expression Class");
+        writer.println(indents(1) + "static class " + className + " extends " + baseName + " { ");
+
+        String[] fields = fieldList.split(", ") ;
+
+        // Fields
+        writer.println(indents(2) + "// Fields");
+        for(String field: fields) {
+            writer.println(indents(2) + "final " + field + ";");
+        }
+        writer.println();
 
         // Constructor
+        writer.println(indents(2) + "// Constructor");
         writer.println(indents(2) + className + "(" + fieldList + ") {") ;
 
         // Store parameters in fields.
-        String[] fields = fieldList.split(", ") ;
+//        String[] fields = fieldList.split(", ") ;
         for(String field: fields) {
             String name = field.split(" ")[1];
             writer.println(indents(3) + "this." + name + " = " + name + ";");
@@ -82,11 +94,11 @@ public class GenerateAst {
         writer.println(indents(3) + "return visitor.visit" + className + baseName + "(this);");
         writer.println(indents(2) +"}");
 
-        // Fields
-        writer.println();
-        for(String field: fields) {
-            writer.println(indents(2) + "final " + field + ";");
-        }
+//        // Fields
+//        writer.println();
+//        for(String field: fields) {
+//            writer.println(indents(2) + "final " + field + ";");
+//        }
 
         writer.println(indents(1) + "}");
 

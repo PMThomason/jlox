@@ -10,7 +10,14 @@ abstract class Expr {
         R visitUnaryExpr(Unary expr);
     }
 
+    // Binary Expression Class
     static class Binary extends Expr { 
+        // Fields
+        final Expr left;
+        final Token operator;
+        final Expr right;
+
+        // Constructor
         Binary(Expr left, Token operator, Expr right) {
             this.left = left;
             this.operator = operator;
@@ -21,13 +28,14 @@ abstract class Expr {
         <R> R accept(Visitor<R> visitor) {
             return visitor.visitBinaryExpr(this);
         }
-
-        final Expr left;
-        final Token operator;
-        final Expr right;
     }
 
+    // Grouping Expression Class
     static class Grouping extends Expr { 
+        // Fields
+        final Expr expression;
+
+        // Constructor
         Grouping(Expr expression) {
             this.expression = expression;
         }
@@ -36,11 +44,14 @@ abstract class Expr {
         <R> R accept(Visitor<R> visitor) {
             return visitor.visitGroupingExpr(this);
         }
-
-        final Expr expression;
     }
 
+    // Literal Expression Class
     static class Literal extends Expr { 
+        // Fields
+        final Object value;
+
+        // Constructor
         Literal(Object value) {
             this.value = value;
         }
@@ -49,11 +60,15 @@ abstract class Expr {
         <R> R accept(Visitor<R> visitor) {
             return visitor.visitLiteralExpr(this);
         }
-
-        final Object value;
     }
 
+    // Unary Expression Class
     static class Unary extends Expr { 
+        // Fields
+        final Token operator;
+        final Expr right;
+
+        // Constructor
         Unary(Token operator, Expr right) {
             this.operator = operator;
             this.right = right;
@@ -63,9 +78,6 @@ abstract class Expr {
         <R> R accept(Visitor<R> visitor) {
             return visitor.visitUnaryExpr(this);
         }
-
-        final Token operator;
-        final Expr right;
     }
 
     abstract <R> R accept(Visitor<R> visitor);
